@@ -70,7 +70,7 @@ def scrapper(country=None):
             "TotalCases": DataValidation.check_for_na_space(data, 2),
             "ActiveCases": DataValidation.check_for_na_space(data, 8),
             "TotalDeaths": DataValidation.check_for_na_space(data, 4),
-            "RecoveryRate": DataValidation.check_for_na_space(data, 6) / DataValidation.check_for_na_space(data, 2),  # noqa: E501
+            "RecoveryRate": DataValidation.check_for_zero_division_error(data, 6, 2),  # noqa: E501
             "PercentageOfPopulationInfected": DataValidation.check_for_zero_division_error(data, 2, 14)  # noqa: E501
         } for data in all_tr_styles_none_filtered
     ]
