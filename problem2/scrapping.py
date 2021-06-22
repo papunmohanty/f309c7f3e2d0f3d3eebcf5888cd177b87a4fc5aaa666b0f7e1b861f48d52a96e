@@ -79,7 +79,3 @@ def scrapper(country=None):
         return countries
     else:
         return index_list_of_countries(countries, "CountryName").get(country, "Country not found")  # noqa: E501
-
-
-class CountryNotFoundError(ValueError):
-    pass
