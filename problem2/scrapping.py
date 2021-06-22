@@ -40,7 +40,7 @@ class DataValidation:
 def index_list_of_countries(_list, value):
     """
     This function helps to index the list of countries in a dictionary
-    by a the field `CountryName`
+    by the field `CountryName`
     """
     indexed_dict = {}
     for country_name, items in groupby(_list, key=itemgetter(value)):
