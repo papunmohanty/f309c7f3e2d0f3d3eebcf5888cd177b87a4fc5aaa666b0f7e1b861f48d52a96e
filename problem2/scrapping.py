@@ -41,6 +41,10 @@ def index_list_of_countries(_list, value):
     """
     This function helps to index the list of countries in a dictionary
     by the field `CountryName`
+
+    :param _list: List[dict]
+    :param value: str
+    :return: dict
     """
     indexed_dict = {}
     for country_name, items in groupby(_list, key=itemgetter(value)):
@@ -50,6 +54,12 @@ def index_list_of_countries(_list, value):
 
 
 def scrapper(country=None):
+    """
+    This function is the entry point for Scrapping process
+
+    :param country: str or None
+    :return: List[dict], dict
+    """
     url = "https://www.worldometers.info/coronavirus/"
     response = requests.get(url)
 
