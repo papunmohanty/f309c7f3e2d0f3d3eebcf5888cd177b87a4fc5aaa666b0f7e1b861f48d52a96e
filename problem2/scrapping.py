@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
 class DataValidation:
     @classmethod
     def check_for_na_space(cls, data, column):
@@ -16,7 +15,7 @@ class DataValidation:
         :param column: int
         :return: int
         """
-        if (data.find_all("td")[column].text.replace(",", "") == "N/A" or data.find_all("td")[column].text.isspace()):
+        if (data.find_all("td")[column].text.replace(",", "") == "N/A" or data.find_all("td")[column].text.isspace()):  # noqa: E501
             return 0
         else:
             return int(data.find_all("td")[column].text.replace(",", ""))
@@ -32,21 +31,23 @@ class DataValidation:
         :result: int
         """
         try:
-            result = cls.check_for_na_space(data, columns[0]) / cls.check_for_na_space(data, columns[1])
-        except ZeroDivisionError as err:
+            result = cls.check_for_na_space(data, columns[0]) / cls.check_for_na_space(data, columns[1])  # noqa: E501
+        except ZeroDivisionError as err:  # noqa: F841
             return 0
         return result
 
+
 def index_list_of_countries(_list, value):
     """
-    This function helps to index the list of countries in a dictionary 
-    by a specific country name
+    This function helps to index the list of countries in a dictionary
+    by a the field `CountryName`
     """
     indexed_dict = {}
     for country_name, items in groupby(_list, key=itemgetter(value)):
         indexed_dict[country_name.lower()] = list(items)[0]
-    
+
     return indexed_dict
+
 
 def scrapper(country=None):
     url = "https://www.worldometers.info/coronavirus/"
@@ -57,7 +58,7 @@ def scrapper(country=None):
     results = soup.find(id="main_table_countries_today")
 
     all_tr_styles = [
-            tr_styles if (tr_styles.get("style")=="" or tr_styles.get("style")=="background-color:#F0F0F0" or tr_styles.get("style")=="background-color:#EAF7D5") else None for tr_styles in results.find_all("tr")
+            tr_styles if ((tr_styles.get("style") == "") or (tr_styles.get("style") == "background-color:#F0F0F0") or tr_styles.get("style") == "background-color:#EAF7D5") else None for tr_styles in results.find_all("tr")  # noqa: E501
         ]
 
     # Filter all None elements
@@ -69,15 +70,15 @@ def scrapper(country=None):
             "TotalCases": DataValidation.check_for_na_space(data, 2),
             "ActiveCases": DataValidation.check_for_na_space(data, 8),
             "TotalDeaths": DataValidation.check_for_na_space(data, 4),
-            "RecoveryRate": DataValidation.check_for_na_space(data, 6) / DataValidation.check_for_na_space(data, 2),
-            "PercentageOfPopulationInfected": DataValidation.check_for_zero_division_error(data, 2, 14)
-        } for data in all_tr_styles_none_filtered 
+            "RecoveryRate": DataValidation.check_for_na_space(data, 6) / DataValidation.check_for_na_space(data, 2),  # noqa: E501
+            "PercentageOfPopulationInfected": DataValidation.check_for_zero_division_error(data, 2, 14)  # noqa: E501
+        } for data in all_tr_styles_none_filtered
     ]
 
     if country is None:
         return countries
     else:
-        return index_list_of_countries(countries, "CountryName").get(country, "Country not found")
+        return index_list_of_countries(countries, "CountryName").get(country, "Country not found")  # noqa: E501
 
 
 class CountryNotFoundError(ValueError):
