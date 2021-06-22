@@ -4,8 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 
 
+
 class DataValidation:
-    
     @classmethod
     def check_for_na_space(cls, data, column):
         """
@@ -73,9 +73,6 @@ def scrapper(country=None):
             "PercentageOfPopulationInfected": DataValidation.check_for_zero_division_error(data, 2, 14)
         } for data in all_tr_styles_none_filtered 
     ]
-
-
-
 
     if country is None:
         return countries
