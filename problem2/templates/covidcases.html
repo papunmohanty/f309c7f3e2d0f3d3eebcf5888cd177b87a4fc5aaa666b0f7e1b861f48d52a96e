@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>CountryName</th>
+        <th>TotalCases</th>
+        <th>ActiveCases</th>
+        <th>RecoveryRate</th>
+        <th>TotalDeaths</th>
+        <th>PercentageOfPopulationInfected</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for country in countries %}
+        <tr>
+          <td>{{ country.CountryName }}</td>
+          <td>{{ country.TotalCases }}</td>
+          <td>{{ country.ActiveCases }}</td>
+          <td>{{ country.RecoveryRate }}</td>
+          <td>{{ country.TotalDeaths }}</td>
+          <td>{{ country.PercentageOfPopulationInfected }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#data').DataTable({
+        columns: [
+          null,
+          {searchable: false},
+          {searchable: false},
+          {searchable: false},
+          {searchable: false},
+          {searchable: false}]
+      });
+    });
+  </script>
+{% endblock %}
